@@ -1,15 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyToken } from './lib/auth'
+import { verifyAuth } from './lib/auth'
 
 export async function middleware(req: NextRequest) {
+  // get token from user
   const token = req.cookies.get('user-token')?.value
-  const verifiedToken = !!token && (await verifyToken(token).catch((err) => console.error(err)))
+
+  // check if user is authenticated
+  const verifiedToken = token && (await verifyAuth(token).catch((error) => console.log(error)))
 
   if (req.nextUrl.pathname.startsWith('/login') && !verifiedToken) {
     return
   }
 
-  if (req.url.includes('/login') && verifiedToken) {
+  const url = req.url
+
+  if (url.includes('/login') && verifiedToken) {
     return NextResponse.redirect(new URL('/dashboard', req.url))
   }
 
@@ -19,5 +24,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard', '/login']
+  matcher: ['/dashboard/:path*', '/login']
 }

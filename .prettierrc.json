@@ -2,13 +2,14 @@
   "arrowParens": "always",
   "bracketSpacing": true,
   "bracketSameLine": false,
-  "indent_style": "space",
+  "indent_style": "tab",
   "indent_size": 2,
   "jsxSingleQuote": true,
   "printWidth": 100,
   "semi": false,
   "singleQuote": true,
-  "singleAttributePerLine": true,
+  "singleAttributePerLine": false,
   "tabWidth": 2,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

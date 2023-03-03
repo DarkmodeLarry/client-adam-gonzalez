@@ -1,26 +1,24 @@
 import { jwtVerify } from 'jose'
 
-interface JwtPayload {
+type UserJwtPayload = {
   jti: string
   iat: number
 }
 
-export const getJwtSecret = (): string => {
+export function getJwtSecretKey(): string {
   const secret = process.env.JWT_SECRET_KEY
 
-  if (!secret || secret.length === 0) {
-    throw new Error('JWT_SECRET is not set')
-  }
+  if (!secret || secret.length === 0) throw new Error('JWT secret key is not defined')
 
   return secret
 }
 
-export const verifyToken = async (token: string) => {
+export async function verifyAuth(token: string) {
   try {
-    const verified = await jwtVerify(token, new TextEncoder().encode(getJwtSecret()))
-    return verified.payload as JwtPayload
-  } catch (e) {
-    console.error(e)
-    throw new Error('Invalid token')
+    const verified = await jwtVerify(token, new TextEncoder().encode(getJwtSecretKey()))
+
+    return verified.payload as UserJwtPayload
+  } catch (error) {
+    throw new Error('Your token is invalid')
   }
 }

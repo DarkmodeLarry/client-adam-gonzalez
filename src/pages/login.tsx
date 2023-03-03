@@ -1,149 +1,113 @@
-import { useState, type ChangeEvent } from 'react'
 import { useRouter } from 'next/router'
+import { type ChangeEvent, type FC, useState, useRef, useEffect } from 'react'
 import { api } from '../utils/api'
-import { HiLockClosed } from 'react-icons/hi'
 import Image from 'next/image'
 import Dolphin from '../../public/dolphins.png'
-import { type NextPage } from 'next'
 
-const Login: NextPage = () => {
+const Login: FC = () => {
   const router = useRouter()
-
-  const { mutate: login, isError } = api.admin.login.useMutation({
-    onSuccess: () => {
-      router.push('/dashboard')
-    }
-  })
-
   const [input, setInput] = useState({
     email: '',
     password: ''
   })
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+  useEffect(() => {
+    setTimeout(() => {
+      if (emailRef.current?.value && passwordRef.current?.value)
+        setInput({
+          email: emailRef.current.value,
+          password: passwordRef.current.value
+        })
+    }, 300)
+  }, [])
+
+  const { mutate: login, isError } = api.admin.login.useMutation({
+    onSuccess: async () => {
+      await router.push('/dashboard')
+    }
+  })
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target
     setInput((prev) => ({ ...prev, [name]: value }))
   }
 
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault()
+    login(input)
+  }
+
   return (
-    <div className='loginPage flex flex-col min-h-full items-center justify-center border-cyan-300 z-30 p-5'>
-      <Image
-        className=''
-        src={Dolphin}
-        alt='Workflow'
-        height={200}
-        width={200}
-      />
-      <div className='w-full h-full max-w-md space-y-10 shadow-2xl border-2 border-transparent rounded-2xl px-10 pb-16'>
-        <div>
-          <h2 className='mt-6 text-center text-3xl font-bold text-gray-900'>
-            Sign in to your account
-          </h2>
-        </div>
-        <form className='mt-8 space-y-6'>
-          <input
-            type='hidden'
-            name='remember'
-            defaultValue='true'
-          />
-          <div className='-space-y-px rounded-md shadow-sm'>
-            <p className='pb-1 text-sm text-red-600'>{isError && 'Invalid login credentials'}</p>
-            <div>
-              <label
-                htmlFor='email-address'
-                className='sr-only'
-              >
-                Email address
-              </label>
-              <input
-                id='email-address'
-                name='email'
-                type='email'
-                value={input.email}
-                onChange={handleChange}
-                autoComplete='email'
-                required
-                className='relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                placeholder='Email address'
-              />
-            </div>
-            <div>
-              <label
-                htmlFor='password'
-                className='sr-only'
-              >
-                Password
-              </label>
-              <input
-                id='password'
-                name='password'
-                type='password'
-                value={input.password}
-                onChange={handleChange}
-                autoComplete='current-password'
-                required
-                className='relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                placeholder='Password'
-              />
-            </div>
+    <section className='h-screen'>
+      <div className='container m-auto h-full px-6 py-12'>
+        <div className='g-6 flex h-full flex-wrap items-center justify-center text-gray-800'>
+          <div className='mb-12 md:mb-0 md:w-8/12 lg:w-4/12'>
+            <Image src={Dolphin} className='w-1/2' alt='Phone image' />
           </div>
-
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center'>
-              <input
-                id='remember-me'
-                name='remember-me'
-                type='checkbox'
-                className='h-4 w-4  py-10 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
-              />
-              <label
-                htmlFor='remember-me'
-                className='ml-2 block text-sm text-gray-900'
-              >
-                Remember me
-              </label>
-            </div>
-
-            <div className='text-sm'>
-              <a
-                href='#'
-                className='font-medium text-indigo-600 hover:text-indigo-500'
-              >
-                Forgot your password?
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <button
-              type='submit'
-              onClick={(e) => {
-                e.preventDefault()
-                login(input)
-              }}
-              className='group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-            >
-              <span className='absolute inset-y-0 left-0 flex items-center pl-3'>
-                <HiLockClosed
-                  className='h-5 w-5 text-indigo-500 group-hover:text-indigo-400'
-                  aria-hidden='true'
+          <div className='md:w-8/12 lg:ml-20 lg:w-4/12'>
+            <form onSubmit={handleSubmit}>
+              <div className='mb-6'>
+                <input
+                  ref={emailRef}
+                  type='text'
+                  name='email'
+                  onChange={handleChange}
+                  className='form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none'
+                  placeholder='Email address'
                 />
-              </span>
-              Sign in
-            </button>
+              </div>
+              <div className='mb-6'>
+                <input
+                  ref={passwordRef}
+                  type='password'
+                  name='password'
+                  onChange={handleChange}
+                  className='form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none'
+                  placeholder='Password'
+                />
+              </div>
+              <div className='mb-6 flex items-center justify-between'>
+                <div className='form-group form-check'>
+                  <input
+                    type='checkbox'
+                    className='form-check-input float-left mt-1 mr-2 h-4 w-4 cursor-pointer appearance-none rounded-sm border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none'
+                    id='exampleCheck2'
+                  />
+                  <label
+                    className='form-check-label inline-block cursor-pointer text-gray-800'
+                    htmlFor='exampleCheck2'
+                  >
+                    Remember me
+                  </label>
+                </div>
+                <a
+                  href='#!'
+                  className='text-blue-600 transition duration-200 ease-in-out hover:text-blue-700 focus:text-blue-700 active:text-blue-800'
+                >
+                  Forgot password?
+                </a>
+              </div>
+              {isError && (
+                <p className='my-3 inline-block w-full rounded bg-red-600 px-7 py-3 text-center text-sm font-medium uppercase leading-snug text-white'>
+                  Invalid login credentials
+                </p>
+              )}
+              <button
+                disabled={!input.email || !input.password}
+                type='submit'
+                className='inline-block w-full rounded bg-blue-600 px-7 py-3 text-sm font-medium uppercase leading-snug text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg'
+                data-mdb-ripple='true'
+                data-mdb-ripple-color='light'
+              >
+                Sign in
+              </button>
+            </form>
           </div>
-        </form>
-        <p className='mt-2 text-center text-sm text-gray-600'>
-          Or{' '}
-          <a
-            href='#'
-            className='font-medium text-indigo-600 hover:text-indigo-500'
-          >
-            Create your account instead
-          </a>
-        </p>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 

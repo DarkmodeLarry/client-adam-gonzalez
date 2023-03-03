@@ -1,21 +1,13 @@
 import { type AppType } from 'next/app'
-import { type Session } from 'next-auth'
-import { SessionProvider } from 'next-auth/react'
 
 import { api } from '../utils/api'
-import '~/styles/tailwind.css'
-import '../styles/calendar.css'
-import '~/styles/globals.css'
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps }
-}) => {
-  return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
-  )
+import '../styles/globals.css'
+import '../styles/Calendar.css'
+import '../styles/Spinner.css'
+
+const MyApp: AppType = ({ Component, pageProps }) => {
+  return <Component {...pageProps} />
 }
 
 export default api.withTRPC(MyApp)
