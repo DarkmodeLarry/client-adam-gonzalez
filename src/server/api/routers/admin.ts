@@ -103,7 +103,7 @@ export const adminRouter = createTRPCRouter({
       const { id, imageKey } = input
       await s3
         .deleteObject({
-          Bucket: process.env.AWS_BUCKET_NAME,
+          Bucket: 'adamswim-dmlarry',
           Key: imageKey
         })
         .promise()
