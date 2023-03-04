@@ -1,22 +1,22 @@
-import React, { FC, useEffect, useState } from 'react'
+import { type ChangeEvent, type FC, useEffect, useState } from 'react'
+import type { MultiValue } from 'react-select/dist/declarations/src'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { MultiValue } from 'react-select'
-import { MAX_FILE_SIZE } from 'src/constants'
-import { api } from 'src/utils/api'
 import { selectOptions } from 'src/utils/helpers'
-import { Categories } from '@types'
+import { MAX_FILE_SIZE } from 'src/constants/config'
+import { api } from 'src/utils/api'
+import type { Categories } from 'src/utils/types'
 
 const DynamicSelect = dynamic(() => import('react-select'), { ssr: false })
 
-type Input = {
+interface Input {
   name: string
   price: number
   categories: MultiValue<{ value: string; label: string }>
   file: undefined | File
 }
 
-const initialInput: Input = {
+const initialInput = {
   name: '',
   price: 0,
   categories: [],
@@ -37,13 +37,11 @@ const Menu: FC = () => {
   useEffect(() => {
     // create the preview
     if (!input.file) return
-
     const objectUrl = URL.createObjectURL(input.file)
     setPreview(objectUrl)
 
-    return () => {
-      URL.revokeObjectURL(objectUrl)
-    }
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl)
   }, [input.file])
 
   function handleFileSelect(event: React.ChangeEvent<HTMLInputElement>) {
@@ -100,105 +98,109 @@ const Menu: FC = () => {
     // })();
   }
 
-  async function handleDelete(imageKey: string, id: string) {
+  const handleDelete = async (imageKey: string, id: string) => {
     await deleteMenuItem({ imageKey, id })
-    await refetch()
+    refetch()
+  }
+
+  const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setInput((prev) => ({ ...prev, [name]: value }))
   }
 
   return (
     <>
-      <div>
-        <div className='mx-auto flex max-w-xl flex-col gap-2'>
+      <div className='min-h-screen max-w-full bg-gray-400'>
+        <div className='flex flex-col justify-center gap-2 py-5 px-5 '>
+          <h2 className='my-5 text-center text-4xl font-semibold'>Menu Edit</h2>
           <input
-            onChange={(event) => setInput((prev) => ({ ...prev, name: event.target.value }))}
-            value={input.name}
-            className='h-12 rounded-sm border-none bg-gray-200'
             name='name'
-            placeholder='name'
+            className='h-12 rounded-sm border-none bg-gray-600 pl-2'
             type='text'
+            placeholder='Name of Training Session'
+            onChange={handleTextChange}
+            value={input.name}
           />
           <input
-            onChange={(event) =>
-              setInput((prev) => ({
-                ...prev,
-                price: Number(event.target.value)
-              }))
-            }
-            value={input.price}
-            className='h-12 rounded-sm border-none bg-gray-200'
             name='price'
-            placeholder='price'
+            className='h-12 rounded-sm bg-gray-200 pl-3'
             type='number'
+            placeholder='price'
+            onChange={(e) => setInput((prev) => ({ ...prev, price: Number(e.target.value) }))}
+            value={input.price}
           />
 
           <DynamicSelect
             value={input.categories}
-            options={selectOptions}
-            onChange={(event) =>
-              // @ts-expect-error // when using nextjs's dynamic import typescript doesn't know what types to expect
-              setInput((prev) => ({ ...prev, categories: event }))
-            }
-            className='h-12'
+            // @ts-expect-error - when using dynamic import, typescript doesn't know about the onChange prop
+            onChange={(e) => setInput((prev) => ({ ...prev, categories: e }))}
             isMulti
-            name='categories'
+            className='h-12'
+            options={selectOptions}
           />
+
           <label
             htmlFor='file'
-            className='relative h-12 cursor-pointer rounded-sm bg-gray-200 font-medium text-violet-600'
+            className='relative h-12 cursor-pointer rounded-sm bg-gray-200 font-medium text-indigo-600 focus-within:outline-none'
           >
+            <span className='sr-only'>File input</span>
             <div className='flex h-full items-center justify-center'>
               {preview ? (
-                <div>
-                  <Image src={preview} alt='preview' style={{ objectFit: 'contain' }} fill />
+                <div className='relative h-3/4 w-full bg-gray-600'>
+                  <Image
+                    alt='preview'
+                    style={{ objectFit: 'contain' }}
+                    fill
+                    src={preview}
+                    height={24}
+                    width={24}
+                  />
                 </div>
               ) : (
                 <span>Select image</span>
               )}
             </div>
             <input
-              onChange={handleFileSelect}
               name='file'
               id='file'
-              type='file'
+              onChange={handleFileSelect}
               accept='image/jpeg image/png image/jpg'
+              type='file'
               className='sr-only'
             />
           </label>
 
           <button
-            onClick={addMenuItem}
+            className='h-12 rounded-sm bg-gray-200 disabled:cursor-not-allowed'
             disabled={!input.file || !input.name}
-            className='h-12 rounded-sm border-none bg-gray-200 disabled:cursor-not-allowed'
+            onClick={addMenuItem}
           >
             Add menu item
           </button>
         </div>
         {error && <p className='text-xs text-red-600'>{error}</p>}
 
-        <div className='mx-auto mt-12 max-w-7xl'>
-          <p className='text-lg font-medium'>Your menu items:</p>
-          <div>
-            {menuItems?.map((menuItem) => {
-              return (
-                <div key={menuItem.id}>
-                  <p>{menuItem.name}</p>
-                  <div className='relative h-40 w-40'>
-                    <img alt='' src={menuItem.url} />
-                  </div>
-                  <button
-                    onClick={() => handleDelete(menuItem.imageKey, menuItem.id)}
-                    className='text-xs text-red-500'
-                  >
-                    delete
-                  </button>
+        <div className='mx-auto mt-10 max-w-7xl'>
+          <p className='text-semibold text-center text-2xl'>Your menu items:</p>
+          <div className='mb-12 mt-10 grid grid-cols-3 gap-4'>
+            {menuItems?.map((menuItem) => (
+              <div key={menuItem.id}>
+                <p className='text-center font-semibold'>{menuItem.name}</p>
+                <div className='relative h-28 w-28 rounded-lg border-2 border-cyan-900 bg-gray-200'>
+                  <Image priority fill alt='' src={menuItem.url} height={28} width={28} />
                 </div>
-              )
-            })}
+                <button
+                  onClick={() => handleDelete(menuItem.imageKey, menuItem.id)}
+                  className='text-xs text-red-500'
+                >
+                  delete
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>
     </>
   )
 }
-
 export default Menu

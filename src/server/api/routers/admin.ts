@@ -1,13 +1,12 @@
+import { s3 } from '@lib/s3'
+import { TRPCError } from '@trpc/server'
+import cookie from 'cookie'
 import { SignJWT } from 'jose'
+import { MAX_FILE_SIZE } from 'src/constants/config'
 import { nanoid } from 'nanoid'
 import { z } from 'zod'
 import { getJwtSecretKey } from '../../../lib/auth'
-import cookie from 'cookie'
-
 import { adminProcedure, createTRPCRouter, publicProcedure } from '../trpc'
-import { TRPCError } from '@trpc/server'
-import { s3 } from '@lib/s3'
-import { MAX_FILE_SIZE } from 'src/constants'
 
 export const adminRouter = createTRPCRouter({
   login: publicProcedure
@@ -20,13 +19,10 @@ export const adminRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { res } = ctx
       const { email, password } = input
-
       if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-        // user is authenticated as admin
+        // user is authenticated
         const token = await new SignJWT({})
-          .setProtectedHeader({
-            alg: 'HS256'
-          })
+          .setProtectedHeader({ alg: 'HS256' })
           .setJti(nanoid())
           .setIssuedAt()
           .setExpirationTime('1h')
@@ -42,25 +38,19 @@ export const adminRouter = createTRPCRouter({
         )
         return { success: true }
       }
+
       throw new TRPCError({
         code: 'UNAUTHORIZED',
         message: 'Invalid email or password'
       })
     }),
 
-  sensitive: adminProcedure.mutation(() => {
-    return 'sensitive'
-  }),
-
   createPresignedUrl: adminProcedure
     .input(z.object({ fileType: z.string() }))
     .mutation(async ({ input }) => {
       const id = nanoid()
-      const fileExtension = input.fileType.split('/')[1]
-
-      if (fileExtension === undefined) throw new Error('File extension is undefined')
-
-      const key = `${id}.${fileExtension}`
+      const ex = input.fileType.split('/')[1]
+      const key = `${id}.${ex}`
 
       const { url, fields } = (await new Promise((resolve, reject) => {
         s3.createPresignedPost(
@@ -70,15 +60,15 @@ export const adminRouter = createTRPCRouter({
             Expires: 60,
             Conditions: [
               ['content-length-range', 0, MAX_FILE_SIZE],
-              ['starts-with', '$Content-type', 'image/']
+              ['starts-with', '$Content-Type', 'image/']
             ]
           },
-          (error, data) => {
-            if (error) return reject(error)
-            resolve(data)
+          (err, signed) => {
+            if (err) return reject(err)
+            resolve(signed)
           }
         )
-      })) as any as { url: string; fields: { [key: string]: any } }
+      })) as any as { url: string; fields: any }
 
       return { url, fields, key }
     }),
@@ -86,20 +76,20 @@ export const adminRouter = createTRPCRouter({
   addMenuItem: adminProcedure
     .input(
       z.object({
+        imageKey: z.string(),
         name: z.string(),
         price: z.number(),
-        imageKey: z.string(),
         categories: z.array(z.union([z.literal('private'), z.literal('group'), z.literal('other')]))
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { name, price, categories, imageKey } = input
+      const { imageKey, name, categories, price } = input
       const menuItem = await ctx.prisma.menuItem.create({
         data: {
+          imageKey,
           name,
-          price,
           categories,
-          imageKey
+          price
         }
       })
 

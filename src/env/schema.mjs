@@ -7,26 +7,9 @@ import { z } from 'zod'
  */
 export const serverSchema = z.object({
   DATABASE_URL: z.string().url(),
-  NODE_ENV: z.enum(['development', 'test', 'production']),
-  AWS_ACCESS_KEY_ID: z.string(),
-  AWS_SECRET_ACCESS_KEY: z.string(),
-  AWS_BUCKET_NAME: z.string(),
-  AWS_REGION: z.string()
+  NODE_ENV: z.enum(['development', 'test', 'production'])
 })
 
-/**
- * You can't destruct `process.env` as a regular object in the Next.js
- * middleware, so you have to do it manually here.
- * @type {{ [k in keyof z.infer<typeof serverSchema>]: z.infer<typeof serverSchema>[k] | undefined }}
- */
-export const serverEnv = {
-  DATABASE_URL: process.env.DATABASE_URL,
-  NODE_ENV: process.env.NODE_ENV,
-  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-  AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
-  AWS_REGION: process.env.AWS_REGION
-}
 /**
  * Specify your client-side environment variables schema here.
  * This way you can ensure the app isn't built with invalid env vars.

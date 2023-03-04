@@ -1,24 +1,34 @@
+import { format } from 'date-fns'
 import { Listbox, Transition } from '@headlessui/react'
-import { FC, Fragment } from 'react'
-import { classNames } from 'src/utils/helpers'
+import { type FC, Fragment } from 'react'
 import { HiCheck, HiSelector } from 'react-icons/hi'
 
-type TimeSelectorProps = {
+interface TimeSelectorProps {
   changeTime: (time: string, type: 'openTime' | 'closeTime') => void
   selected: string | undefined
   type: 'openTime' | 'closeTime'
 }
 
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
+
 const timeOptions: string[] = []
-for (let i = 5; i < 24; i++) {
+for (let i = 5; i < 20; i++) {
   for (let j = 0; j < 60; j += 30) {
-    timeOptions.push(`${i.toString().padStart(2, '0')}:${j.toString().padStart(2, '0')}`)
+    const date = new Date()
+    date.setHours(i, j)
+    const formattedTime = format(date, 'hh:mm aa')
+    timeOptions.push(formattedTime)
   }
 }
 
-const TimeSelector: FC<TimeSelectorProps> = ({ selected, changeTime, type }: TimeSelectorProps) => {
-  if (!selected) return <p>None selected!</p>
+const TimeSelector: FC<TimeSelectorProps> = ({ selected, changeTime, type }) => {
+  // generate time options from 00:00 to 23:30
 
+  if (!selected) return <p>none selected</p>
+
+  // ensure this format 08:00 instead of 8:00
   if (type === 'openTime') selected = selected.padStart(5, '0')
 
   return (
@@ -33,11 +43,11 @@ const TimeSelector: FC<TimeSelectorProps> = ({ selected, changeTime, type }: Tim
     >
       {({ open }) => (
         <>
-          <Listbox.Label className='block w-32 text-sm font-medium text-gray-700'>
+          <Listbox.Label className='block w-32 text-center text-sm font-medium text-blue-700'>
             {type === 'openTime' ? 'Opening time' : 'Closing time'}
           </Listbox.Label>
           <div className='relative mt-1'>
-            <Listbox.Button className='relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm'>
+            <Listbox.Button className='relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm'>
               <div className='flex items-center'>
                 <span
                   aria-label={true ? 'Online' : 'Offline'}
@@ -67,7 +77,7 @@ const TimeSelector: FC<TimeSelectorProps> = ({ selected, changeTime, type }: Tim
                       key={time}
                       className={({ active }) =>
                         classNames(
-                          active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                          active ? 'bg-green-600 text-white' : 'text-gray-900',
                           'relative cursor-default select-none py-2 pl-3 pr-9'
                         )
                       }
@@ -78,7 +88,7 @@ const TimeSelector: FC<TimeSelectorProps> = ({ selected, changeTime, type }: Tim
                           <div className='flex items-center'>
                             <span
                               className={classNames(
-                                time === selected ? 'bg-green-400' : 'bg-gray-200',
+                                time === selected ? 'bg-green-500' : 'bg-blue-800',
                                 'inline-block h-2 w-2 flex-shrink-0 rounded-full'
                               )}
                               aria-hidden='true'

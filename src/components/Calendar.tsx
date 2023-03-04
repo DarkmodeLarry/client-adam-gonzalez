@@ -1,24 +1,24 @@
+import { type Day } from '@prisma/client'
+import { type FC, useEffect, useState } from 'react'
 import { format, formatISO, isBefore, parse } from 'date-fns'
-import { FC, useEffect, useState } from 'react'
-import ReactCalendar from 'react-calendar'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
+import { getOpeningTimes, roundToNearestMinutes } from 'src/utils/helpers'
+import { DateTime } from 'src/utils/types'
+import { OPENING_HOURS_INTERVAL, now } from 'src/constants/config'
 
-import { Day } from '@prisma/client'
-import { DateTime } from '@types'
+const DynamicCalendar = dynamic(() => import('react-calendar'), { ssr: false })
 
-import { getOpeningTimes, roundUpToNearestMinutes } from 'src/utils/helpers'
-import { INTERVAL, now } from '../constants'
-
-type CalendarProps = {
+interface CalendarProps {
   days: Day[]
-  closedDays: string[]
+  closedDays: string[] // as ISO strings
 }
 
-const Calendar: FC<CalendarProps> = ({ days, closedDays }) => {
+const CalendarComponent: FC<CalendarProps> = ({ days, closedDays }) => {
   const router = useRouter()
 
-  const today = days.find((day) => day.dayOfWeek === now.getDay())
-  const rounded = roundUpToNearestMinutes(now, INTERVAL)
+  const today = days.find((d) => d.dayOfWeek === now.getDay())
+  const rounded = roundToNearestMinutes(now, OPENING_HOURS_INTERVAL)
   const closing = parse(today!.closeTime, 'hh:mm aa', now)
   const tooLate = !isBefore(rounded, closing)
   if (tooLate) closedDays.push(formatISO(new Date().setHours(0, 0, 0, 0)))
@@ -46,27 +46,48 @@ const Calendar: FC<CalendarProps> = ({ days, closedDays }) => {
   }
 
   return (
-    <div className='flex flex-col items-center justify-center'>
-      {date.bookingDate ? (
-        <div className='flex flex-row items-center justify-center'>
-          {times?.map((time, i) => (
-            <div className='m-2 rounded-xl bg-cyan-400 p-2' key={`time-${i}`}>
-              <button onClick={() => chooseBookingTime(time)}>{format(time, 'hh:mm aa')}</button>
-            </div>
-          ))}
+    <section
+      id='calendar'
+      className='calendar flex w-full flex-col items-center justify-center bg-gray-700 '
+    >
+      <h1 className='my-10 text-center font-montserrat text-2xl text-white md:text-4xl'>
+        Select an Appointment
+      </h1>
+      <div className='flex w-full flex-col items-center md:flex-row'>
+        <div className='flex w-1/2 flex-col items-center justify-center gap-10 '>
+          <p className='w-full text-center font-montserrat text-2xl text-gray-200'>Pick a Date</p>
+          <DynamicCalendar
+            minDate={now}
+            className='REACT-CALENDAR p-2 md:mb-10'
+            view='month'
+            tileDisabled={({ date }) => closedDays.includes(formatISO(date))}
+            onClickDay={chooseBookingDate}
+          />
         </div>
-      ) : (
-        <ReactCalendar
-          className='REACT-CALENDAR p-2'
-          view='month'
-          tileDisabled={({ date }) => closedDays.includes(formatISO(date))}
-          onClickDay={chooseBookingDate}
-          minDate={new Date()}
-          locale='en-GB'
-        />
-      )}
-    </div>
+
+        <div className='mt-10 w-full px-1 md:mt-0 md:w-1/2'>
+          <h3 className='w-full text-center font-montserrat text-2xl tracking-wider text-white'>
+            {' '}
+            Pick a Time
+          </h3>
+          <div className='mt-5 mb-44 flex flex-wrap items-center gap-2 p-2'>
+            {date.bookingDate &&
+              times?.map((time, i) => (
+                <div key={`time-${i}`} className=''>
+                  <button
+                    onClick={() => chooseBookingTime(time)}
+                    type='button'
+                    className='text-md flex h-10 w-28 items-center justify-center rounded-lg border-2 bg-gray-100 font-semibold text-black shadow-md shadow-gray-500  transition-all duration-150 ease-out hover:scale-[.99] hover:border-white hover:bg-gray-700 hover:text-gray-100'
+                  >
+                    {format(time, 'hh:mm aa')}
+                  </button>
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
-export default Calendar
+export default CalendarComponent

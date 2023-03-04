@@ -1,3 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Montserrat:wght@700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .login {
+    background: url(/mobileBackground.jpg) no-repeat;
+    font-family: 'Montserrat', sans-serif;
+    @apply flex min-h-screen w-full -translate-y-9 items-center justify-center;
+  }
+  .hero {
+    background: url(/landingPageV1.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+    max-height: 100vh;
+    min-height: 100vh;
+  }
+  .formBox {
+    max-height: 700px;
+    min-height: 500px;
+    width: 400px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    background: transparent;
+    @apply relative flex items-center justify-center font-medium tracking-widest  shadow-2xl drop-shadow-2xl;
+  }
+
+  .formValue {
+    @apply h-full;
+  }
+  .login h2 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    @apply absolute top-5 font-dmsans text-gray-100;
+  }
+
+  .inputBox {
+    margin: 30px 0;
+    border-bottom: 2px solid #fff;
+
+    @apply relative w-80;
+  }
+
+  .inputBox label {
+    top: 50%;
+    left: 5px;
+    transform: translateY(80%);
+    color: #fff;
+    font-size: 1em;
+    @apply absolute cursor-none text-gray-100 transition-all duration-150;
+  }
+  input:focus ~ label,
+  input:valid ~ label {
+    top: -5px;
+  }
+  .inputBox input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    padding: 0 35px 0 5px;
+    color: #fff;
+  }
+  .inputBox .icon {
+    position: absolute;
+    right: 20px;
+    color: #fff;
+    font-size: 25px;
+    top: 20px;
+  }
+
+  .price {
+    @apply font-bold;
+  }
+}
+
+.btn:hover,
+.btn:focus {
+  box-shadow: 0 0 0 2px var(--color), 0 0 0 4px var(--bgcolor);
+}
+.btn:active {
+  transform: scale(0.95);
+}
+
+::selection {
+  color: var(--light);
+  background: var(--red);
+}
+
+.closed-day {
+  background-color: #550000;
+  color: white;
+}
+
+.closed-day:hover {
+  background-color: #6d0000 !important;
+  color: white !important;
+}
+
+.closed-day:enabled:focus {
+  background-color: #8a0000 !important;
+  color: white;
+}
+
+.loginPage {
+  min-height: 100vh;
+  max-height: 100vh;
+  background-color: hsla(199, 97%, 45%, 1);
+  background-image: radial-gradient(at 20% 0%, rgb(228, 247, 242) 5px, transparent 50%);
+}
+
+.hers {
+  background: conic-gradient(
+    at center top,
+    rgb(34, 211, 238),
+    rgb(14, 165, 233),
+    rgb(255, 255, 255)
+  );
+}

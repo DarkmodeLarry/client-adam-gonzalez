@@ -1,4 +1,4 @@
-import { categories } from 'src/constants'
+import { type categories } from 'src/constants/config'
 
 export type DateTime = {
   bookingDate: Date | null

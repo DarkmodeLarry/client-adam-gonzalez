@@ -26,3 +26,15 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 ## How do I deploy this?
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+\*Personalized Workout Plans – If you are comfortable in the water and just need someone to help guide
+your practice, I will write individualized workouts that you can do on your own time. Personalized
+workouts are most effective if used alongside private or group lessons. Swimmers can take important
+technique points and practice them between lessons for optimal improvement
+
+Group training
+
+Semi Private Training is tailored to group's level and goals
+Enjoy with families and/or friends
+
+(60 Minutes, MWF $80/month, $15/day)
