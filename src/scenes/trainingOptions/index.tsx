@@ -1,7 +1,6 @@
 import { SelectedPage } from '../../shared/types'
 import Private from '../../../public/Adam.png'
 import Intro from '../../../public/introclass.jpg'
-// import HandsOn from '../../../public/handsOn.jpg'
 import team from '../../../public/group.png'
 
 import { motion } from 'framer-motion'
@@ -14,9 +13,9 @@ type Props = {
 const TrainingOptions = ({ setSelectedPage }: Props) => {
   return (
     <>
-      <section id='options' className='flex min-h-screen w-full flex-col bg-gray-700 pb-10'>
+      <section id='trainingoptions' className='var(--centeredTop) bg-gray-700 pb-10'>
         <motion.div onViewportEnter={() => setSelectedPage(SelectedPage.TrainingOptions)}>
-          <p className='py-10 text-center text-3xl font-black text-gray-300 lg:text-4xl'>
+          <p className='py-10 text-center text-2xl font-black text-gray-300 lg:text-2xl'>
             Training Menu:
           </p>
         </motion.div>
@@ -35,7 +34,7 @@ const TrainingOptions = ({ setSelectedPage }: Props) => {
           <div className='flex flex-col items-center justify-center space-y-8 text-xs'>
             {/* card */}
             {/* Header */}
-            <div className='flex w-[600px] flex-col '>
+            <div className='flex w-[400px] flex-col '>
               <div className='flex h-10 w-full items-center justify-center gap-8 rounded-t-xl bg-gray-300 text-center'>
                 <p className=' text-gray-600'>Private Lessons</p>
                 <p className='text-xs text-amber-600'>with Adam Gonzales</p>
@@ -82,7 +81,7 @@ const TrainingOptions = ({ setSelectedPage }: Props) => {
             </div>
             {/* Content */}
             {/* card */}
-            <div className='mb-8 flex w-[600px] flex-col '>
+            <div className='mb-8 flex w-[400px] flex-col '>
               <div className='flex h-10 w-full items-center justify-center gap-8 rounded-t-xl bg-gray-300'>
                 <p className=' text-gray-600'>Introductory Class</p>
                 <p className='text-xs text-amber-600'>Consultation</p>
@@ -104,7 +103,7 @@ const TrainingOptions = ({ setSelectedPage }: Props) => {
                 {/* Content */}
 
                 <div className='flex w-4/6 flex-col border-2 border-gray-400 px-8'>
-                  <h4 className='flex pt-2 text-gray-300'>Consultation</h4>
+                  <p className='flex pt-2 text-gray-300'>Consultation</p>
                   <div className='py-2 font-dmsans text-xs text-gray-400'>
                     <p className=''>Assessment</p>
                     <p className=''>Goal setting</p>
@@ -122,7 +121,7 @@ const TrainingOptions = ({ setSelectedPage }: Props) => {
               </div>
             </div>
             {/* card */}
-            <div className='flex w-[600px] flex-col  border-white pt-2 pb-8'>
+            <div className='flex w-[400px] flex-col  border-white pt-2 pb-8'>
               <div className='flex h-10 w-full items-center justify-center gap-8 rounded-t-xl bg-gray-300'>
                 <p className=' text-gray-600'>Group Class</p>
                 <p className='text-xs text-amber-600'>Semi Private</p>
@@ -144,7 +143,7 @@ const TrainingOptions = ({ setSelectedPage }: Props) => {
                 {/* Content */}
 
                 <div className='flex w-4/6 flex-col rounded-br-xl border-2 border-gray-400 px-8'>
-                  <h4 className='flex items-center pt-2 text-gray-300'>Group Training</h4>
+                  <p className='flex items-center pt-2 text-gray-300'>Group Training</p>
                   <div className='py-2 font-dmsans text-xs text-gray-400'>
                     <p className=''>Novice level+</p>
                     <p className=''>Semi Private Training is tailored to group's level and goals</p>

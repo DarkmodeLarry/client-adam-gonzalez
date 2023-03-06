@@ -1,9 +1,9 @@
 export enum SelectedPage {
-  Home = 'home',
+  Hero = 'hero',
   About = 'about',
   OurClasses = 'ourclasses',
   ContactUs = 'contactUs',
-  TrainingOptions = 'options',
+  TrainingOptions = 'trainingoptions',
   Calendar = 'calendar'
 }
 

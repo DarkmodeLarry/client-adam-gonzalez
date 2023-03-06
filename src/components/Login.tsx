@@ -3,6 +3,9 @@ import { useState, type ChangeEvent, type FC } from 'react'
 import { HiLockClosed } from 'react-icons/hi'
 import { api } from '../utils/api'
 import Link from 'next/link'
+import { IoIosArrowRoundBack } from 'react-icons/io'
+import Orcas from '../../public/digitalorcas.jpg'
+import Image from 'next/image'
 
 const Login: FC = () => {
   const router = useRouter()
@@ -23,18 +26,20 @@ const Login: FC = () => {
     setInput((prev) => ({ ...prev, [name]: value }))
   }
   return (
-    <div className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
-      <div className='w-full max-w-md space-y-8'>
-        <div>
-          {/* If this was a real login screen, you'd want a next/image here */}
+    <div className='login relative border-8 border-slate-900'>
+      <Link href='/'>
+        <IoIosArrowRoundBack className='absolute top-5 left-5 text-4xl text-gray-500 hover:text-gray-700' />
+      </Link>
 
-          <h2 className='mt-6 text-center text-3xl font-bold text-gray-900'>
-            Sign in to your account
-          </h2>
+      <div className=' max-h-[700px] min-h-[500px] w-full max-w-md '>
+        <div>
+          {/* <Image src={Orcas} alt='Orcas' className='mx-auto h-20 w-auto' /> */}
+
+          <h2 className='text-center text-3xl font-bold text-gray-900'>Log in</h2>
         </div>
-        <form className='mt-8 space-y-6'>
+        <form className='flex flex-col justify-center space-y-8 '>
           <input type='hidden' name='remember' defaultValue='true' />
-          <div className='-space-y-px rounded-md shadow-sm'>
+          <div className='space-y-8 rounded-md font-bold shadow-sm'>
             <p className='pb-1 text-sm text-red-600'>{error && 'Invalid login credentials'}</p>
             <div>
               <label htmlFor='email-address' className='sr-only'>
@@ -48,8 +53,8 @@ const Login: FC = () => {
                 onChange={handleChange}
                 autoComplete='email'
                 required
-                className='relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                placeholder='Email address'
+                className='focus:ring-none relative block w-full appearance-none rounded-none rounded-b-lg border-b-2 border-black bg-transparent px-3 py-4  text-slate-900 placeholder-slate-700 '
+                placeholder='Email'
               />
             </div>
             <div>
@@ -64,49 +69,27 @@ const Login: FC = () => {
                 onChange={handleChange}
                 autoComplete='current-password'
                 required
-                className='relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+                className='focus:ring-none relative block w-full rounded-b-md border-b-2 border-black bg-transparent px-2 py-4 text-slate-800 placeholder-slate-700 focus:border-none'
                 placeholder='Password'
               />
             </div>
-          </div>
 
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center'>
-              <input
-                id='remember-me'
-                name='remember-me'
-                type='checkbox'
-                className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
-              />
-              <label htmlFor='remember-me' className='ml-2 block text-sm text-gray-900'>
-                Remember me
-              </label>
+            <div className='px-2 pt-8'>
+              <button
+                type='submit'
+                onClick={(e) => {
+                  e.preventDefault()
+                  login(input)
+                }}
+                className='group relative flex w-full justify-center rounded-md border border-transparent bg-slate-900 py-2 text-lg font-medium text-white  hover:bg-opacity-90'
+              >
+                Log in
+              </button>
+              <div className='flex flex-col items-center justify-center space-y-4 p-2'>
+                <p className=''>or</p>
+                <p className=''>Log in with</p>
+              </div>
             </div>
-
-            <div className='text-sm'>
-              <Link href='#' className='font-medium text-indigo-600 hover:text-indigo-500'>
-                Forgot your password?
-              </Link>
-            </div>
-          </div>
-
-          <div>
-            <button
-              type='submit'
-              onClick={(e) => {
-                e.preventDefault()
-                login(input)
-              }}
-              className='group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-            >
-              <span className='absolute inset-y-0 left-0 flex items-center pl-3'>
-                <HiLockClosed
-                  className='h-5 w-5 text-indigo-500 group-hover:text-indigo-400'
-                  aria-hidden='true'
-                />
-              </span>
-              Sign in
-            </button>
           </div>
         </form>
       </div>

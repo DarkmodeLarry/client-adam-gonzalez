@@ -3,7 +3,7 @@ import NavLink from './NavLink'
 import { GiDolphin } from 'react-icons/gi'
 import Koi from '../../../public/yinYangBlue.png'
 import Avatar from '../../../public/mike.png'
-import { Menu, Calendar } from 'react-feather'
+import { Menu } from 'react-feather'
 import useMediaQuery from '../../hooks/useMediaQuery'
 import { type SelectedPage } from '../../shared/types'
 import Link from 'next/link'
@@ -15,43 +15,30 @@ type Props = {
   setSelectedPage: (value: SelectedPage) => void
 }
 const Header = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
-  const flexBetween = 'flex items-center justify-between'
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false)
   const isAboveMediumScreens = useMediaQuery('(min-width: 1060px)')
   const navbarBackground = isTopOfPage
     ? ''
-    : 'bg-black rounded-full w-full flex justify-center items-center mt-4 transition-all duration-200 h-20 text-gray-100'
+    : ' w-full flex justify-center items-center transition-all duration-200 h-20 text-slate-900 bg-[var(--black)] bg-opacity-95 '
   return (
-    <nav>
+    <nav className='navbar '>
       <div
-        className={`${navbarBackground} fixed top-0 z-30 flex h-24 w-full flex-nowrap items-center justify-between bg-black px-5`}
+        className={`${navbarBackground} text--900 fixed top-0 z-30 flex h-16 w-full flex-nowrap items-center justify-between border-b-[1px] border-b-[var(--black)] bg-[var(--white)] px-5`}
       >
         {/* LEFT SIDE */}
-        <div className='items-left flex basis-3/12 items-center justify-center gap-4 font-montserrat'>
-          {/* <Image alt='home-pageGraphic' priority src={Koi} className='max-w-[100px]  ' /> */}
-
-          <p className='font-montserrat text-sm text-white'>
-            <span className='text-sm text-gray-400'>with </span> Coach Adam
-          </p>
-          <Image
-            alt='home-pageGraphic'
-            priority
-            src={Koi}
-            height={75}
-            width={75}
-            className='  max-w-[100px]'
-          />
+        <div className='flex basis-1/12 items-center justify-center'>
+          <h2 className='uppercase text-[var(--white)]'>streamline</h2>
         </div>
 
         {/* MIDDLE  */}
         {isAboveMediumScreens ? (
-          <div className='flex w-full items-center justify-end'>
+          <div className='flex w-full items-center justify-center'>
             <div
-              className={`font-md text-md flex w-full basis-7/12 items-center gap-8 font-dmsans text-gray-300 `}
+              className={`font-sm flex w-full basis-10/12 items-center justify-center space-x-8  `}
             >
-              <NavLink page='Home' selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
+              <NavLink page='Hero' selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
               <NavLink
-                page='Options'
+                page='Training Options'
                 selectedPage={selectedPage}
                 setSelectedPage={setSelectedPage}
               />
@@ -61,41 +48,31 @@ const Header = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                 selectedPage={selectedPage}
                 setSelectedPage={setSelectedPage}
               />
-              <div className='flex gap-4 font-semibold text-gray-200'>
-                <Link href='/login' className={`${flexBetween} gap-8`}>
-                  <p className='px-3 py-2 font-semibold transition-all hover:rounded-2xl hover:border-2 hover:text-yellow-400 hover:shadow-2xl'>
-                    Sign In
-                  </p>
-                </Link>
-
-                <div className='flex gap-3 border-2 border-transparent p-2 transition-all duration-150 hover:rounded-xl hover:border-2 hover:border-white hover:text-yellow-400'>
-                  <NavLink
-                    page='Calendar'
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
-                  <Calendar />
-                </div>
+              <div className='flex border-2 border-transparent p-2 transition-all duration-150 hover:rounded-xl hover:border-2 hover:border-white hover:text-yellow-400'>
+                <NavLink
+                  page='Calendar'
+                  selectedPage={selectedPage}
+                  setSelectedPage={setSelectedPage}
+                />
               </div>
             </div>
-            <div className='flex w-full basis-3/12 justify-end'>
-              <div className='flex items-center gap-2 rounded-full bg-gradient-to-br from-gray-500 via-gray-400 to-gray-500 p-1'>
-                <Image src={Avatar} alt='avatar' height={55} width={55} className=' ' />
-                <p className='bg-gray-00 font-montserrat font-thin tracking-wider text-white'>
-                  Welcome Back, <span className='font-semibold text-amber-500'>Mike</span>
+            <div className=''>
+              <Link href='/login' className=''>
+                <p className='text-lg font-semibold transition-all hover:rounded-2xl hover:border-2 hover:text-cyan-400 hover:shadow-2xl'>
+                  Sign In
                 </p>
-              </div>
+              </Link>
             </div>
           </div>
         ) : (
-          <div className='flex items-center justify-center gap-4 rounded-full bg-gradient-to-br from-gray-500 via-gray-400 to-gray-500 px-1 py-1'>
+          <div className='flex w-full items-center justify-center gap-4 rounded-full bg-gradient-to-br from-gray-500 via-gray-400 to-gray-500 px-1 py-1'>
+            <p>streamline</p>
             <button
               className='rounded-full  bg-gray-700 p-1 drop-shadow-lg transition-all duration-200 hover:scale-95 '
               onClick={() => setIsMenuToggled(!isMenuToggled)}
             >
-              <Menu className='h-10 w-10 rounded-full  text-cyan-600 ' />
+              <Menu className='h-8 w-8 rounded-full  text-cyan-600 ' />
             </button>
-            <Image src={Avatar} alt='avatar' height={55} width={55} className=' rounded-full' />
           </div>
         )}
       </div>
@@ -116,8 +93,13 @@ const Header = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
           </div>
 
           {/* MENU ITEMS */}
-          <div className='raleway ml-[33%] flex flex-col gap-10  text-xl '>
+          <div className='ml-[33%] flex flex-col gap-10  text-xl '>
             <NavLink page='Home' selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
+            <NavLink
+              page='TrainingOptions'
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+            />
             <NavLink page='About' selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
             <NavLink
               page='Calendar'
@@ -129,7 +111,7 @@ const Header = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
             />
-            <Link href='/login' className={`${flexBetween} `}>
+            <Link href='/login' className=''>
               <p className='px-3 py-2 transition-all hover:rounded-2xl hover:border-2 hover:text-yellow-400'>
                 Sign In
               </p>

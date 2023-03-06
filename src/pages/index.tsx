@@ -1,9 +1,9 @@
 import { type NextPage } from 'next'
 import Head from 'next/head'
-import Hero from '../scenes/Home'
+import Hero from '../scenes/hero'
 import ContactUs from '../scenes/contactUs'
 import About from '../scenes/about'
-import TrainingOptions from '../scenes/options'
+import TrainingOptions from '../scenes/trainingOptions'
 import CalendarComponent from '@components/Calendar'
 import { formatISO } from 'date-fns'
 import { prisma } from '../server/db/client'
@@ -18,14 +18,14 @@ type HomeProps = {
 }
 
 const Home: NextPage<HomeProps> = ({ days, closedDays }) => {
-  const [selectedPage, setSelectedPage] = useState<SelectedPage>(SelectedPage.Home)
+  const [selectedPage, setSelectedPage] = useState<SelectedPage>(SelectedPage.Hero)
   const [isTopOfPage, setIsTopOfPage] = useState<boolean>(true)
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) {
         setIsTopOfPage(true)
-        setSelectedPage(SelectedPage.Home)
+        setSelectedPage(SelectedPage.Hero)
       }
       if (window.scrollY !== 0) setIsTopOfPage(false)
     }
@@ -46,7 +46,7 @@ const Home: NextPage<HomeProps> = ({ days, closedDays }) => {
         setSelectedPage={setSelectedPage}
       />
 
-      <main className='flex min-h-screen max-w-full flex-col items-center justify-center'>
+      <main className='var(--centeredTop)'>
         <Hero setSelectedPage={setSelectedPage} />
         <TrainingOptions setSelectedPage={setSelectedPage} />
         <About setSelectedPage={setSelectedPage} />
