@@ -1,29 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavLink from './NavLink'
-import { GiDolphin } from 'react-icons/gi'
 import Koi from '../../../public/yinYangBlue.png'
-import Avatar from '../../../public/mike.png'
 import { Menu } from 'react-feather'
 import useMediaQuery from '../../hooks/useMediaQuery'
 import { type SelectedPage } from '../../shared/types'
 import Link from 'next/link'
 import Image from 'next/image'
+import { AiOutlineHome } from 'react-icons/ai'
+import { BiSwim } from 'react-icons/bi'
+import { FaRegUserCircle } from 'react-icons/fa'
+import { MdOutlineMailOutline } from 'react-icons/md'
+import { BsCalendarPlus } from 'react-icons/bs'
 
 type Props = {
   isTopOfPage: boolean
   selectedPage: SelectedPage
   setSelectedPage: (value: SelectedPage) => void
 }
-const Header = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
+const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false)
+  const [active, setActive] = useState<boolean>(false)
   const isAboveMediumScreens = useMediaQuery('(min-width: 1060px)')
   const navbarBackground = isTopOfPage
     ? ''
-    : ' w-full flex justify-center items-center transition-all duration-200 h-20 text-slate-900 bg-[var(--black)] bg-opacity-95 '
+    : ' w-full flex justify-center items-center transition-all duration-200 h-16 text-slate-900 bg-[var(--black)] bg-opacity-95 mt-4 '
+
+  let list = document.querySelectorAll('.navigation Link')
+
+  function activeLink(this: HTMLElement) {
+    list.forEach((item) => {
+      item.classList.remove('active')
+    })
+    this.classList.add('active')
+  }
+
+  list.forEach((item) => item.addEventListener('click', activeLink))
+
   return (
-    <nav className='navbar '>
+    <nav className='navbar relative w-full '>
       <div
-        className={`${navbarBackground} text--900 fixed top-0 z-30 flex h-16 w-full flex-nowrap items-center justify-between border-b-[1px] border-b-[var(--black)] bg-[var(--white)] px-5`}
+        className={`${navbarBackground} text--900 fixed top-0 z-30 flex h-16  w-full flex-nowrap items-center justify-between`}
       >
         {/* LEFT SIDE */}
         <div className='flex basis-1/12 items-center justify-center'>
@@ -62,17 +78,66 @@ const Header = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                   Sign In
                 </p>
               </Link>
+              <div className='flex w-full items-center justify-center gap-4 rounded-full bg-gradient-to-br from-gray-500 via-gray-400 to-gray-500 px-1 py-1'>
+                <p>streamline</p>
+                <button
+                  className='rounded-full  bg-gray-700 p-1 drop-shadow-lg transition-all duration-200 hover:scale-95 '
+                  onClick={() => setIsMenuToggled(!isMenuToggled)}
+                >
+                  <Menu className='h-8 w-8 rounded-full  text-cyan-600 ' />
+                </button>
+              </div>
             </div>
           </div>
         ) : (
-          <div className='flex w-full items-center justify-center gap-4 rounded-full bg-gradient-to-br from-gray-500 via-gray-400 to-gray-500 px-1 py-1'>
-            <p>streamline</p>
-            <button
-              className='rounded-full  bg-gray-700 p-1 drop-shadow-lg transition-all duration-200 hover:scale-95 '
-              onClick={() => setIsMenuToggled(!isMenuToggled)}
-            >
-              <Menu className='h-8 w-8 rounded-full  text-cyan-600 ' />
-            </button>
+          // Mobile Nav
+          <div className='fixed bottom-0 flex h-20 min-w-full flex-col items-center justify-center'>
+            <div className='relative h-full w-full'>
+              <div className='fixed right-28 top-4 flex translate-x-1/2  items-center justify-center font-medium uppercase'>
+                <p className='px-4 text-lg  font-[var(--space)] text-[var(--black)]'>streamline</p>
+                <button
+                  className='rounded-full border-2 bg-gray-700 p-1 drop-shadow-lg transition-all duration-200 hover:scale-95 '
+                  onClick={() => setIsMenuToggled(!isMenuToggled)}
+                >
+                  <Menu className='h-6 w-6 rounded-full  text-cyan-600 ' />
+                </button>
+              </div>
+              <ul className='navigation  flex h-full w-full items-center justify-between bg-[var(--black)] px-4 text-sm'>
+                <li className='active'>
+                  <a className='flex flex-col items-center justify-center' href='#'>
+                    <span className='icon'>
+                      <AiOutlineHome className='h-6 w-6' />
+                    </span>
+                    <span className='text'>Home</span>
+                  </a>
+                </li>
+                <li>
+                  <a className='flex flex-col items-center justify-center' href='#'>
+                    <span className='icon'>
+                      <BiSwim className=' h-6 w-6' />
+                    </span>
+                    <span className='text'>Training</span>
+                  </a>
+                </li>
+
+                <li>
+                  <a className='flex flex-col items-center justify-center' href='#'>
+                    <span className='icon'>
+                      <BsCalendarPlus className='h-6 w-6' />
+                    </span>
+                    <span className='text'>Schedule</span>
+                  </a>
+                </li>
+                <li>
+                  <a className='flex flex-col items-center justify-center' href='#'>
+                    <span className='icon'>
+                      <FaRegUserCircle className='h-6 w-6' />
+                    </span>
+                    <span className='text'>Profile</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         )}
       </div>
@@ -123,4 +188,4 @@ const Header = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
   )
 }
 
-export default Header
+export default Navbar
