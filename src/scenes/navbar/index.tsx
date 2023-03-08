@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import NavLink from './NavLink'
-import Koi from '../../../public/yinYangBlue.png'
 import { Menu } from 'react-feather'
 import useMediaQuery from '../../hooks/useMediaQuery'
 import { type SelectedPage } from '../../shared/types'
@@ -9,7 +8,6 @@ import Image from 'next/image'
 import { AiOutlineHome } from 'react-icons/ai'
 import { BiSwim } from 'react-icons/bi'
 import { FaRegUserCircle } from 'react-icons/fa'
-import { MdOutlineMailOutline } from 'react-icons/md'
 import { BsCalendarPlus } from 'react-icons/bs'
 
 type Props = {
@@ -23,27 +21,29 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
   const isAboveMediumScreens = useMediaQuery('(min-width: 1060px)')
   const navbarBackground = isTopOfPage
     ? ''
-    : ' w-full flex justify-center items-center transition-all duration-200 h-16 text-slate-900 bg-[var(--black)] bg-opacity-95 mt-4 '
+    : ' w-full flex justify-center items-center transition-all duration-200 h-16 text-slate-900 bg-opacity-90 mt-4 rounded-full '
 
-  let list = document.querySelectorAll('.navigation Link')
+  useEffect(() => {
+    const list = document.querySelectorAll('.bottomNav li')
 
-  function activeLink(this: HTMLElement) {
-    list.forEach((item) => {
-      item.classList.remove('active')
-    })
-    this.classList.add('active')
-  }
+    const activeLink = function (this: HTMLElement) {
+      list.forEach((item) => {
+        item.classList.remove('active')
+      })
+      this.classList.add('active')
+    }
 
-  list.forEach((item) => item.addEventListener('click', activeLink))
+    list.forEach((item) => item.addEventListener('click', activeLink))
+  }, [])
 
   return (
     <nav className='navbar relative w-full '>
       <div
-        className={`${navbarBackground} text--900 fixed top-0 z-30 flex h-16  w-full flex-nowrap items-center justify-between`}
+        className={`${navbarBackground} fixed top-0  z-30 flex h-16 w-full flex-nowrap  items-center justify-between bg-[var(--black)] text-gray-100`}
       >
         {/* LEFT SIDE */}
         <div className='flex basis-1/12 items-center justify-center'>
-          <h2 className='uppercase text-[var(--white)]'>streamline</h2>
+          <h2 className='pl-4 uppercase text-[var(--white)]'>streamline</h2>
         </div>
 
         {/* MIDDLE  */}
@@ -92,18 +92,17 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
         ) : (
           // Mobile Nav
           <div className='fixed bottom-0 flex h-20 min-w-full flex-col items-center justify-center'>
+            <div className='fixed right-1/2 bottom-14 z-50 flex w-full translate-x-1/2  items-center justify-center font-medium uppercase'>
+              <button
+                className='rounded-full border-2 bg-gray-700 p-1 drop-shadow-lg transition-all duration-200 hover:scale-95 '
+                onClick={() => setIsMenuToggled(!isMenuToggled)}
+              >
+                <Menu className='h-6 w-6 rounded-full  text-cyan-600 ' />
+              </button>
+            </div>
             <div className='relative h-full w-full'>
-              <div className='fixed right-28 top-4 flex translate-x-1/2  items-center justify-center font-medium uppercase'>
-                <p className='px-4 text-lg  font-[var(--space)] text-[var(--black)]'>streamline</p>
-                <button
-                  className='rounded-full border-2 bg-gray-700 p-1 drop-shadow-lg transition-all duration-200 hover:scale-95 '
-                  onClick={() => setIsMenuToggled(!isMenuToggled)}
-                >
-                  <Menu className='h-6 w-6 rounded-full  text-cyan-600 ' />
-                </button>
-              </div>
-              <ul className='navigation  flex h-full w-full items-center justify-between bg-[var(--black)] px-4 text-sm'>
-                <li className='active'>
+              <ul className='bottomNav  flex h-full w-full items-center justify-between bg-[var(--black)] px-4 text-sm'>
+                <li className='active' onClick={() => setActive(!active)}>
                   <a className='flex flex-col items-center justify-center' href='#'>
                     <span className='icon'>
                       <AiOutlineHome className='h-6 w-6' />
@@ -111,7 +110,7 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                     <span className='text'>Home</span>
                   </a>
                 </li>
-                <li>
+                <li className='' onClick={() => setActive(!active)}>
                   <a className='flex flex-col items-center justify-center' href='#'>
                     <span className='icon'>
                       <BiSwim className=' h-6 w-6' />
@@ -120,7 +119,7 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                   </a>
                 </li>
 
-                <li>
+                <li className='' onClick={() => setActive(!active)}>
                   <a className='flex flex-col items-center justify-center' href='#'>
                     <span className='icon'>
                       <BsCalendarPlus className='h-6 w-6' />
@@ -128,7 +127,7 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                     <span className='text'>Schedule</span>
                   </a>
                 </li>
-                <li>
+                <li className='' onClick={() => setActive(!active)}>
                   <a className='flex flex-col items-center justify-center' href='#'>
                     <span className='icon'>
                       <FaRegUserCircle className='h-6 w-6' />

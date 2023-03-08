@@ -147,14 +147,7 @@ const Menu: FC = () => {
             <div className='flex h-full items-center justify-center'>
               {preview ? (
                 <div className='relative h-3/4 w-full bg-gray-600'>
-                  <Image
-                    alt='preview'
-                    style={{ objectFit: 'contain' }}
-                    fill
-                    src={preview}
-                    height={24}
-                    width={24}
-                  />
+                  <Image alt='preview' style={{ objectFit: 'contain' }} fill src={preview} />
                 </div>
               ) : (
                 <span>Select image</span>
@@ -184,10 +177,10 @@ const Menu: FC = () => {
           <p className='text-semibold text-center text-2xl'>Your menu items:</p>
           <div className='mb-12 mt-10 grid grid-cols-3 gap-4'>
             {menuItems?.map((menuItem) => (
-              <div key={menuItem.id}>
+              <div className='w-full p-8' key={menuItem.id}>
                 <p className='text-center font-semibold'>{menuItem.name}</p>
                 <div className='relative h-28 w-28 rounded-lg border-2 border-cyan-900 bg-gray-200'>
-                  <Image priority fill alt='' src={menuItem.url} height={28} width={28} />
+                  <Image priority fill alt='' src={menuItem.url} />
                 </div>
                 <button
                   onClick={() => handleDelete(menuItem.imageKey, menuItem.id)}

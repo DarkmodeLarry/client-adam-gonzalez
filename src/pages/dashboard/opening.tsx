@@ -9,6 +9,8 @@ import toast, { Toaster } from 'react-hot-toast'
 import { now } from 'src/constants/config'
 import { capitalize, classNames, weekdayIndexToName } from 'src/utils/helpers'
 import { api } from 'src/utils/api'
+import { HiArrowLeft } from 'react-icons/hi'
+import Link from 'next/link'
 
 interface OpeningProps {
   days: Day[]
@@ -51,33 +53,47 @@ const Opening: FC<OpeningProps> = ({ days }) => {
   }
 
   return (
-    <div className='mx-auto max-w-xl'>
-      <Toaster />
-      <div className='mt-6 flex justify-center gap-6'>
-        <p className={`${!enabled ? 'font-medium' : ''}`}>Opening times</p>
-        <Switch
-          checked={enabled}
-          onChange={setEnabled}
-          className={classNames(
-            enabled ? 'bg-indigo-600' : 'bg-gray-200',
-            'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-          )}
-        >
-          <span className='sr-only'>Use setting</span>
-          <span
-            aria-hidden='true'
-            className={classNames(
-              enabled ? 'translate-x-5' : 'translate-x-0',
-              'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
-            )}
-          />
-        </Switch>
-        <p className={`${enabled ? 'font-medium' : ''}`}>Opening days</p>
+    <div className='relative mx-auto h-screen max-w-xl'>
+      <div className='fixed top-0 left-0 gap-6'>
+        <Link href='/dashboard'>
+          <HiArrowLeft className='h-10 w-10 text-xl text-black' />
+        </Link>
       </div>
-
+      <Toaster />
+      <div className='fixed bottom-0 mt-6 flex h-16 w-full items-center justify-center gap-6 bg-gray-900  text-white'>
+        <div className='w-1/3 text-right'>
+          <p className={`${!enabled ? 'text-lg font-semibold  text-amber-500' : ''}`}>
+            Opening times
+          </p>
+        </div>
+        <div className='mx-auto w-1/3  text-center'>
+          <Switch
+            checked={enabled}
+            onChange={setEnabled}
+            className={classNames(
+              enabled ? 'bg-indigo-600' : 'bg-gray-600',
+              'relative inline-flex h-11 w-20 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent  transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+            )}
+          >
+            <span className='sr-only'>Use setting</span>
+            <span
+              aria-hidden='true'
+              className={classNames(
+                enabled ? 'translate-x-10' : 'translate-x-0',
+                'pointer-events-none inline-block h-10 w-10 transform rounded-full bg-white shadow ring-0 transition-all duration-300 ease-in-out'
+              )}
+            />
+          </Switch>
+        </div>
+        <div className='w-1/3 text-left'>
+          <p className={`${enabled ? 'text-lg font-semibold tracking-wider text-green-500' : ''}`}>
+            Opening days
+          </p>
+        </div>
+      </div>
       {!enabled ? (
         // Opening times options
-        <div className='my-12 flex flex-col gap-8'>
+        <div className='my-12 flex flex-col gap-6 text-sm'>
           {days.map((day) => {
             const changeTime = _changeTime(day)
             return (

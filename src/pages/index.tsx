@@ -10,6 +10,7 @@ import { prisma } from '../server/db/client'
 import { type Day } from '@prisma/client'
 import { SelectedPage } from '../shared/types'
 import Navbar from 'src/scenes/navbar'
+
 import { useState, useEffect } from 'react'
 
 type HomeProps = {
@@ -46,7 +47,7 @@ const Home: NextPage<HomeProps> = ({ days, closedDays }) => {
         setSelectedPage={setSelectedPage}
       />
 
-      <main className='var(--centeredTop)'>
+      <main className=''>
         <Hero setSelectedPage={setSelectedPage} />
         <TrainingOptions setSelectedPage={setSelectedPage} />
         <About setSelectedPage={setSelectedPage} />

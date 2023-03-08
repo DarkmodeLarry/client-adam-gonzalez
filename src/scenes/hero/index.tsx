@@ -7,22 +7,20 @@ type Props = {
 
 const Hero = ({ setSelectedPage }: Props) => {
   return (
-    <section id='hero' className='hero var(--centeredTop)'>
-      <motion.div
-        className=' mt-20 px-8'
-        onViewportEnter={() => setSelectedPage(SelectedPage.Hero)}
-      >
+    <section id='hero' className='hero mt-4 h-full max-w-full bg-[#e7e7e7]'>
+      <motion.div className='' onViewportEnter={() => setSelectedPage(SelectedPage.Hero)}>
         {/* IMAGE AND MAIN HEADER */}
 
         {/* HEADINGS */}
 
-        <div className=''>
-          <h1>Personal Swimming Coach</h1>
-          <p className='py-4 pl-8 text-3xl'>.</p>
+        <div className='mt-14 pl-10'>
+          <h1 className='my-10 pt-10 text-2xl font-semibold text-cyan-600'>
+            Adam <span className='text-[var(--black)]'>Gonzales</span>
+          </h1>
+          <h2 className='mt-2'>Personal Swim Instructor.</h2>
+          <p className='my-4 text-xl'>Elite swim training for everyone.</p>
         </div>
       </motion.div>
-      {/* ACTIONS */}
-
       <motion.div
         className='flex w-full justify-start md:justify-end'
         initial='hidden'
@@ -34,10 +32,17 @@ const Hero = ({ setSelectedPage }: Props) => {
           visible: { opacity: 1, x: 0 }
         }}
       >
-        <button className='cursor-pointer rounded-full border-4 border-gray-600  bg-gradient-to-br  from-gray-500 via-gray-400 to-gray-500 py-2 px-2 text-xl tracking-wider  transition-all duration-200 '>
+        <button className='ml-10 cursor-pointer rounded-full border-2 border-gray-400  bg-gradient-to-br from-cyan-900 via-gray-300 to-cyan-600 py-2 px-2 text-lg tracking-wider  transition-all duration-200 '>
           <p>Inquire Now</p>
         </button>
       </motion.div>
+      <div className='my-6 w-full bg-gray-400'>
+        <video className='video' width='500' height='500' autoPlay muted loop>
+          <source src='/videos/streamline.mp4' type='video/mp4' />
+        </video>
+      </div>
+
+      {/* ACTIONS */}
     </section>
   )
 }
