@@ -14,7 +14,7 @@ const Home = ({ setSelectedPage }: Props) => {
 
         {/* HEADINGS */}
 
-        <div className='py-14 pl-4'>
+        <div className='py-14 pl-4 sm:px-8 md:px-16 lg:px-36'>
           <h1 className='pt-8 pb-8 text-2xl font-semibold tracking-widest text-cyan-500'>
             Adam Gonzales
           </h1>
@@ -27,7 +27,7 @@ const Home = ({ setSelectedPage }: Props) => {
           </div>
         </div>
         <motion.div
-          className='flex w-full justify-start md:justify-end'
+          className='flex w-full justify-start sm:px-6 md:px-12 lg:px-32'
           initial='hidden'
           whileInView='visible'
           viewport={{ once: true, amount: 0.4 }}

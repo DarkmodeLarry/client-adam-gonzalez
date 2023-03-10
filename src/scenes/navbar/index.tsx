@@ -42,7 +42,7 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
         className={`${navbarBackground} fixed top-0 z-30 flex h-16 w-full flex-nowrap items-center justify-between bg-[var(--black)] bg-opacity-80 text-gray-100`}
       >
         {/* LEFT SIDE */}
-        <div className='hidden'>
+        <div className='hidden md:block'>
           <h2 className='pl-2 uppercase text-[var(--white)]'>streamline</h2>
         </div>
 
