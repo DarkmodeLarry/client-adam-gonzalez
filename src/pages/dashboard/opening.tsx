@@ -56,7 +56,7 @@ const Opening: FC<OpeningProps> = ({ days }) => {
     <div className='relative mx-auto h-screen max-w-xl'>
       <div className='fixed top-0 left-0 gap-6'>
         <Link href='/dashboard'>
-          <HiArrowLeft className='h-10 w-10 text-xl text-black' />
+          <HiArrowLeft className='m-4 h-6 w-6 text-xl text-black' />
         </Link>
       </div>
       <Toaster />

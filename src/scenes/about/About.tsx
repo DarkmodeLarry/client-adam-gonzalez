@@ -20,7 +20,7 @@ const Abouts = ({ icon, title, description, setSelectedPage }: Props) => {
       variants={childVariant}
       className='py- mt-5 max-w-sm rounded-md border-2 border-gray-400 bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-800 via-cyan-400 to-gray-800 px-1 text-center'
     >
-      <h4 className='font-bold'>{title}</h4>
+      {/* <h4 className='font-bold'>{title}</h4>
       <p className='my-8 px-6 text-sm text-gray-300'>{description}</p>
       <AnchorLink
         className='hover:text-secondary-500 text-xs font-bold underline'
@@ -38,7 +38,7 @@ const Abouts = ({ icon, title, description, setSelectedPage }: Props) => {
             confident. . Swimmers know swimmers. We know we are tough.
           </p>
         </div>
-      </AnchorLink>
+      </AnchorLink> */}
     </motion.div>
   )
 }

@@ -112,7 +112,7 @@ const Menu: FC = () => {
     <>
       <div className='min-h-screen max-w-full bg-gray-400'>
         <div className='flex flex-col justify-center gap-2 py-5 px-5 '>
-          <h2 className='my-5 text-center text-4xl font-semibold'>Menu Edit</h2>
+          <h2 className='my-5 text-center text-4xl font-semibold'>Edit Menu</h2>
           <input
             name='name'
             className='h-12 rounded-sm border-none bg-gray-600 pl-2'
@@ -141,7 +141,7 @@ const Menu: FC = () => {
 
           <label
             htmlFor='file'
-            className='relative h-12 cursor-pointer rounded-sm bg-gray-200 font-medium text-indigo-600 focus-within:outline-none'
+            className='relative h-12 cursor-pointer rounded-sm bg-gray-200 focus-within:outline-none'
           >
             <span className='sr-only'>File input</span>
             <div className='flex h-full items-center justify-center'>
@@ -175,12 +175,18 @@ const Menu: FC = () => {
 
         <div className='mx-auto mt-10 max-w-7xl'>
           <p className='text-semibold text-center text-2xl'>Your menu items:</p>
-          <div className='mb-12 mt-10 grid grid-cols-3 gap-4'>
+          <div className='flex w-full flex-col '>
             {menuItems?.map((menuItem) => (
-              <div className='w-full p-8' key={menuItem.id}>
-                <p className='text-center font-semibold'>{menuItem.name}</p>
-                <div className='relative h-28 w-28 rounded-lg border-2 border-cyan-900 bg-gray-200'>
-                  <Image priority fill alt='' src={menuItem.url} />
+              <div className='w-full  p-8' key={menuItem.id}>
+                <div className='flex bg-gray-600'>
+                  <div className='relative h-28 w-28 rounded-lg border-4 border-cyan-900 '>
+                    <Image priority fill alt='' src={menuItem.url} />
+                  </div>
+                  <div className='flex h-1/2 flex-col justify-center pt-4  pl-4 capitalize tracking-wider text-[var(--white)] '>
+                    <p className='text-left text-sm font-semibold'>{menuItem.name}</p>
+                    <br />
+                    <p className='text-left text-sm font-semibold'>$ {menuItem.price}</p>
+                  </div>
                 </div>
                 <button
                   onClick={() => handleDelete(menuItem.imageKey, menuItem.id)}

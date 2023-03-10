@@ -7,8 +7,8 @@ type Props = {
 }
 
 const ContactUs = ({ setSelectedPage }: Props) => {
-  const inputStyles = `my-2 w-full rounded-lg bg-[#f2f2f2] shadow-2xl shadow-
-  px-5 py-3 placeholder-gray-400 text-white`
+  const inputStyles = `my-2 w-full rounded-lg bg-[var(--black)] shadow-2xl
+  px-5 py-3 placeholder-gray-200 text-white`
 
   const {
     register,
@@ -26,7 +26,7 @@ const ContactUs = ({ setSelectedPage }: Props) => {
   return (
     <section
       id='contactus'
-      className='mx-auto  flex h-[700px] w-full max-w-full  flex-col  items-center justify-center  bg-gray-900 text-gray-100 '
+      className='mx-auto  flex h-[700px] w-full max-w-full  flex-col  items-center justify-center  bg-[var(--white)] text-[var(--black)] '
     >
       <motion.div className='mx-5' onViewportEnter={() => setSelectedPage(SelectedPage.ContactUs)}>
         {/* HEADER */}
@@ -47,7 +47,7 @@ const ContactUs = ({ setSelectedPage }: Props) => {
         </motion.div>
 
         {/* FORM AND IMAGE */}
-        <div className='mt-10 justify-between gap-8 md:flex '>
+        <div className='mt-6 justify-between gap-8 md:flex '>
           <motion.div
             className='mt-10 basis-3/5 md:mt-0'
             initial='hidden'
@@ -116,25 +116,11 @@ const ContactUs = ({ setSelectedPage }: Props) => {
 
               <button
                 type='submit'
-                className='rounded-lg border-2 bg-gray-900 px-3 py-2 font-semibold tracking-widest text-white transition-colors duration-150 ease-in hover:bg-gray-400 hover:text-gray-900'
+                className='rounded-lg border-2 bg-[var(--black)] px-3 py-2 font-semibold tracking-widest text-white transition-colors duration-150 ease-in hover:bg-gray-600 '
               >
                 SEND IT
               </button>
             </form>
-          </motion.div>
-
-          <motion.div
-            className='relative mt-16 basis-2/5 md:mt-0'
-            initial='hidden'
-            whileInView='visible'
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            variants={{
-              hidden: { opacity: 0, y: 50 },
-              visible: { opacity: 1, y: 0 }
-            }}
-          >
-            <div className='md:before:content-evolvetext w-full before:absolute before:-bottom-20 before:-right-10 before:z-[-1]'></div>
           </motion.div>
         </div>
       </motion.div>

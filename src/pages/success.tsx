@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { type FC, useState, useEffect } from 'react'
 import { capitalize } from 'src/utils/helpers'
 import { api } from 'src/utils/api'
+import Waves from '../../public/digitalwaves.jpg'
 import Image from 'next/image'
 
 interface successProps {}
@@ -35,18 +36,12 @@ const success: FC<successProps> = ({}) => {
   if (products === false) return <div>Bruh what do you want on this page</div>
 
   return (
-    <main className='relative lg:min-h-full'>
-      <div className='h-80 overflow-hidden lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12'>
-        <Image
-          src='https://tailwindui.com/img/ecommerce-images/confirmation-page-06-hero.jpg'
-          alt='TODO'
-          className='h-full w-full object-cover object-center'
-          height={64}
-          width={64}
-        />
+    <main className='relative min-h-full max-w-full'>
+      <div className='h-80 overflow-hidden '>
+        <Image src={Waves} alt='header' className='object-cover' />
       </div>
 
-      <div>
+      <div className='bg-gray-100'>
         <div className='mx-auto max-w-2xl py-16 px-4 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-32 xl:gap-x-24'>
           <div className='lg:col-start-2'>
             <h1 className='text-sm font-medium text-indigo-600'>Payment successful</h1>

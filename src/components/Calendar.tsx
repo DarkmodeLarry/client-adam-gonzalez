@@ -48,14 +48,12 @@ const CalendarComponent: FC<CalendarProps> = ({ days, closedDays }) => {
   return (
     <section
       id='calendar'
-      className='calendar flex w-full flex-col items-center justify-center bg-gray-700 '
+      className='calendar flex w-full flex-col items-center justify-center bg-[var(--black)]  '
     >
-      <h1 className='my-10 text-center font-montserrat text-2xl text-white md:text-4xl'>
-        Select an Appointment
-      </h1>
+      <h1 className='my-8 text-center text-2xl text-[var(--white)]'>Book A Training Session</h1>
       <div className='flex w-full flex-col items-center md:flex-row'>
-        <div className='flex w-1/2 flex-col items-center justify-center gap-10 '>
-          <p className='w-full text-center font-montserrat text-2xl text-gray-200'>Pick a Date</p>
+        <div className='flex w-1/2 flex-col items-center justify-center gap-8 '>
+          <p className='w-full text-center text-xl text-[var(--white)]'>Pick a Date</p>
           <DynamicCalendar
             minDate={now}
             className='REACT-CALENDAR p-2 md:mb-10'
@@ -66,10 +64,7 @@ const CalendarComponent: FC<CalendarProps> = ({ days, closedDays }) => {
         </div>
 
         <div className='mt-10 w-full px-1 md:mt-0 md:w-1/2'>
-          <h3 className='w-full text-center font-montserrat text-2xl tracking-wider text-white'>
-            {' '}
-            Pick a Time
-          </h3>
+          <h3 className='w-full text-center text-xl tracking-wider text-white'> Pick a Time</h3>
           <div className='mt-5 mb-44 flex flex-wrap items-center gap-2 p-2'>
             {date.bookingDate &&
               times?.map((time, i) => (

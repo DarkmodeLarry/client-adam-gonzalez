@@ -93,8 +93,8 @@ const Cart: FC<CartProps> = ({ open, setOpen, products, removeFromCart }) => {
                                       unoptimized
                                       src={item.url}
                                       alt={item.name}
-                                      width={24}
-                                      height={24}
+                                      width={100}
+                                      height={100}
                                       className=' object-cover object-center'
                                     />
                                   </div>

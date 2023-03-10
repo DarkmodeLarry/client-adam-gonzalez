@@ -11,7 +11,7 @@ const About = ({ setSelectedPage }: Props) => {
     <section id='about' className='flex w-full flex-col  justify-center py-10 md:text-center'>
       <motion.div onViewportEnter={() => setSelectedPage(SelectedPage.About)}>
         {/* HEADER */}
-        <motion.div
+        {/* <motion.div
           className='bg-transparent text-center md:my-5'
           initial='hidden'
           whileInView='visible'
@@ -37,7 +37,7 @@ const About = ({ setSelectedPage }: Props) => {
               <p className='font-montserrat text-xl'>[Insert Badass Photo ]</p>
             </div>
           </div>
-        </motion.div>
+        </motion.div> */}
 
         {/* GRAPHICS AND DESCRIPTION */}
       </motion.div>

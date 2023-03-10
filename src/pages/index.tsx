@@ -1,6 +1,6 @@
 import { type NextPage } from 'next'
 import Head from 'next/head'
-import Hero from '../scenes/hero'
+import Home from '../scenes/home'
 import ContactUs from '../scenes/contactUs'
 import About from '../scenes/about'
 import TrainingOptions from '../scenes/trainingOptions'
@@ -13,20 +13,20 @@ import Navbar from 'src/scenes/navbar'
 
 import { useState, useEffect } from 'react'
 
-type HomeProps = {
+type HomepageProps = {
   days: Day[]
   closedDays: string[] // as ISO String
 }
 
-const Home: NextPage<HomeProps> = ({ days, closedDays }) => {
-  const [selectedPage, setSelectedPage] = useState<SelectedPage>(SelectedPage.Hero)
+const Homepage: NextPage<HomepageProps> = ({ days, closedDays }) => {
+  const [selectedPage, setSelectedPage] = useState<SelectedPage>(SelectedPage.Home)
   const [isTopOfPage, setIsTopOfPage] = useState<boolean>(true)
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) {
         setIsTopOfPage(true)
-        setSelectedPage(SelectedPage.Hero)
+        setSelectedPage(SelectedPage.Home)
       }
       if (window.scrollY !== 0) setIsTopOfPage(false)
     }
@@ -48,7 +48,7 @@ const Home: NextPage<HomeProps> = ({ days, closedDays }) => {
       />
 
       <main className=''>
-        <Hero setSelectedPage={setSelectedPage} />
+        <Home setSelectedPage={setSelectedPage} />
         <TrainingOptions setSelectedPage={setSelectedPage} />
         <About setSelectedPage={setSelectedPage} />
         <CalendarComponent days={days} closedDays={closedDays} />
@@ -64,4 +64,4 @@ export async function getServerSideProps() {
   return { props: { days, closedDays } }
 }
 
-export default Home
+export default Homepage

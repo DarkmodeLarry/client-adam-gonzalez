@@ -36,50 +36,54 @@ const Menu: FC<MenuProps> = ({ selectedTime, addToCart }) => {
   }
 
   return (
-    <div className='flex w-full flex-col  rounded-xl bg-gray-900 p-2 text-gray-100'>
-      <h2 className='flex items-center gap-4 px-4 font-sans text-2xl font-thin tracking-wider text-gray-100'>
+    <div className='flex w-full flex-col  rounded-xl bg-[var(--black)] p-4 capitalize text-gray-100'>
+      <h2 className='flex items-center gap-4 rounded-xl bg-[#b7b7b7] p-4 text-lg font-semibold tracking-wider text-[var(--black)]'>
         <HiArrowLeft className='cursor-pointer' onClick={() => router.push('/')} />
         Our Training Options for :
-        <span className='text-sm text-[1.2rem] font-medium text-cyan-300 '>
+        <span className='text-sm font-medium text-cyan-700'>
           [{format(parseISO(selectedTime), 'MMM do, yyyy')}]
         </span>
       </h2>
 
-      <div className='w-full p-2  '>
+      <div className='w-full py-2  '>
         <Select
           onChange={handleSelectChange}
-          className='border-none outline-none'
+          className='border-none text-[var(--black)] outline-none'
           options={selectOptions}
           placeholder='Filter by category'
           isMulti={false}
         />
       </div>
-      <div className='flex h-[500px] w-full items-center justify-center gap-5 rounded-xl bg-gray-700 px-2 py-2'>
+      <div className='flex h-[500px] w-full flex-col gap-5 rounded-md bg-gray-700 p-4'>
         {filteredMenuItems?.map((menuItem) => (
           <div
             key={menuItem.id}
-            className='flex h-44 w-80 max-w-md justify-between rounded-lg border-2 border-gray-800 bg-cyan-600 text-center'
+            className='flex h-36 w-3/4 max-w-md justify-between rounded-lg border-4 border-gray-400 bg-cyan-700  text-center'
           >
-            <Image
-              src={menuItem.url}
-              alt={menuItem.name}
-              className='m-2 w-full rounded-lg '
-              width={64}
-              height={36}
-            />
-            <div className='flex w-full flex-col gap-2'>
-              <h3 className='text-center font-extralight text-gray-100'>
-                <p>{menuItem.name}</p>
-              </h3>
-              <p className='w-full text-center text-gray-800'>
-                {menuItem.categories.map((c) => capitalize(c)).join(', ')}
-              </p>
+            <div className='flex h-32 w-5/12 flex-col items-center justify-center p-2'>
+              <Image
+                src={menuItem.url}
+                alt={menuItem.name}
+                className='m-2 w-full rounded-lg '
+                width={36}
+                height={32}
+              />
+            </div>
+            <div className='flex w-7/12 flex-col justify-between gap-2 py-2 px-1'>
+              <div className=''>
+                <h3 className='w-full text-left text-xs font-bold tracking-wider text-gray-400'>
+                  {menuItem.categories.map((c) => capitalize(c)).join(', ')}
+                </h3>
+                <h2 className='w-full text-left text-sm tracking-wider text-gray-100'>
+                  {menuItem.name}
+                </h2>
 
-              <p className='font- w-full text-center text-sm tracking-wider text-green-300'>
-                ${menuItem.price.toFixed(2)}
-              </p>
+                <p className='w-full text-left text-sm font-bold tracking-wider text-green-500'>
+                  ${menuItem.price.toFixed(2)}
+                </p>
+              </div>
               <button
-                className='rounded-md border-2 border-gray-900 bg-green-500 text-sm font-semibold text-white transition duration-150 hover:border-gray-600 hover:bg-opacity-50 hover:text-gray-900'
+                className='rounded-md border-2 border-gray-900 bg-green-500 px-4 text-sm font-semibold text-white transition duration-150 hover:border-gray-600 hover:bg-opacity-50 hover:text-gray-900'
                 onClick={() => {
                   addToCart(menuItem.id, 1)
                 }}

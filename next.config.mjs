@@ -7,7 +7,7 @@ const config = {
     defaultLocale: 'en'
   },
   images: {
-    domains: ['adamswim-dmlarry.s3.us-west-1.amazonaws.com']
+    domains: ['adamswim-dmlarry.s3.us-west-1.amazonaws.com', 'tailwindui.com']
   }
 }
 export default config
