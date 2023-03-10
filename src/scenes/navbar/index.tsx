@@ -61,11 +61,7 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
               />
             </div>
             <NavLink page='About' selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
-            <NavLink
-              page='Contact Us'
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
+
             <div className='hidden border-2 border-transparent p-2 transition-all duration-150 hover:rounded-xl hover:border-2 hover:border-white hover:text-yellow-400 md:flex'>
               <NavLink
                 page='Calendar'
@@ -73,6 +69,11 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                 setSelectedPage={setSelectedPage}
               />
             </div>
+            <NavLink
+              page='Contact Us'
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+            />
           </div>
           <div className='mr-2 flex w-20 flex-col items-center justify-center rounded-lg border-2 py-1 px-2 text-gray-200 transition-all duration-150 hover:border-cyan-600  hover:bg-[var(--black)] hover:font-semibold hover:text-cyan-500'>
             <Link href='/login' className='inline-block text-xs'>

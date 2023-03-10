@@ -27,7 +27,7 @@ const Home = ({ setSelectedPage }: Props) => {
           </div>
         </div>
         <motion.div
-          className='flex w-full justify-start sm:px-6 md:px-12 lg:px-32'
+          className='flex w-full justify-start sm:px-6 md:px-12 lg:px-28'
           initial='hidden'
           whileInView='visible'
           viewport={{ once: true, amount: 0.4 }}
